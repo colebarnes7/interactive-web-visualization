@@ -20,7 +20,7 @@ d3.json(url).then(function(data){
     // create dropdown/select
     
     // run functions to generate plots
-    createScatter('940');
+    createBubble('940');
     createBar('940');
     createSummary('940');
   };
@@ -31,16 +31,39 @@ d3.json(url).then(function(data){
   function optionChanged(newID){
     // code that updates graphics
     // one way is to recall each function
-    createScatter(newID);
+    createBubble(newID);
     createBar(newID);
     createSummary(newID);
   };
   
-  function createScatter(id){
-    // code that makes scatter plot at id='bubble'
-  
+  // Function to create a bubble chart at a specific id
+  function createBubble(id){
+    for (let i = 0; i < names.length; i++){
+      // finds the index where the current id is
+      if (id == names[i]){
+        // Stores OTU data at current id
+        let sample_values = samples[i].sample_values;
+        let otu_ids = samples[i].otu_ids;
+        let otu_labels = samples[i].otu_labels;
+        // Sets up the data for bubble chart at current id
+        let data = [{
+          x: otu_ids,
+          y: sample_values,
+          mode: 'markers',
+          text: otu_labels,
+          marker: {
+            size: sample_values,
+            color: otu_ids
+          }
+        }];
+        //Creates the bar chart with plotly at id='bar'
+        Plotly.newPlot("bubble", data);
+        //Exits the loop
+        break;
+      };
+    };
     // checking to see if function is running
-    console.log(`This function generates scatter plot of ${id} `);
+    console.log(`This function generates bubble plot of ${id} `);
   };
   
   // Function to create a horizontal bar chart at a specific id
@@ -48,14 +71,14 @@ d3.json(url).then(function(data){
     for (let i = 0; i < names.length; i++){
       // finds the index where the current id is
       if (id == names[i]){
-        // Stores top 10 OTUs at current id
+        // Stores top 10 OTU data at current id
         let sample_values = samples[i].sample_values.slice(0, 10);
         let temp = samples[i].otu_ids.slice(0, 10);
         let otu_ids = temp.map(function (x) {
           return "OTU " + x;
-        })
+        });
         let otu_labels = samples[i].otu_labels.slice(0, 10);
-        // Sets up the data for horizontal bar chart at current id
+        // Sets up the data and formatting for horizontal bar chart at current id
         let data = [{
         type: 'bar',
         x: sample_values,
@@ -67,7 +90,7 @@ d3.json(url).then(function(data){
           order: 'ascending'
         }],
         orientation: 'h'
-        }]
+        }];
         //Creates the bar chart with plotly at id='bar'
         Plotly.newPlot("bar", data);
         //Exits the loop
