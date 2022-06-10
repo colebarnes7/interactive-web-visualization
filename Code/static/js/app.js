@@ -12,28 +12,31 @@ d3.json(url).then(function(data){
   // function that contains instructions at page load/refresh
   // function does not run until called
   function init(){
-    // code that runs once (only on page load or refresh)
-    
     // this checks that our initial function runs.
     console.log("The Init() function ran");
-    
     // create dropdown/select
-    
+    let dropdownMenu = d3.select("#selDataset");
+    for (let i = 0; i < names.length; i++){
+      dropdownMenu.append("option").text(names[i]);
+    };
     // run functions to generate plots
     createBubble('940');
     createBar('940');
     createSummary('940');
   };
 
+  d3.selectAll("#selDataset").on("change", optionChanged());
   // function that runs whenever the dropdown is changed
   // this function is in the HTML and is called with an input called 'this.value'
   // that comes from the select element (dropdown)
-  function optionChanged(newID){
+  function optionChanged(){
     // code that updates graphics
+    let dropdownMenu = d3.select("#selDataset");
+    let id = dropdownMenu.property("this.value");
     // one way is to recall each function
-    createBubble(newID);
-    createBar(newID);
-    createSummary(newID);
+    createBubble(id);
+    createBar(id);
+    createSummary(id);
   };
   
   // Function to create a bubble chart at a specific id
@@ -78,7 +81,7 @@ d3.json(url).then(function(data){
           return "OTU " + x;
         });
         let otu_labels = samples[i].otu_labels.slice(0, 10);
-        // Sets up the data and formatting for horizontal bar chart at current id
+        // Sets up the data for horizontal bar chart at current id
         let data = [{
         type: 'bar',
         x: sample_values,
@@ -102,8 +105,19 @@ d3.json(url).then(function(data){
   };
   
   function createSummary(id){
-    // code that makes list, paragraph, text/linebreaks at id='sample-meta'
-    
+    for (let i = 0; i < names.length; i++){
+      // finds the index where the current id is
+      if (id == names[i]){
+        // code that sets up demographic info at id='sample-meta'
+        d3.select("#sample-metadata").append("p").text(`id: ${metadata[i].id}`);
+        d3.select("#sample-metadata").append("p").text(`ethnicity: ${metadata[i].ethnicity}`);
+        d3.select("#sample-metadata").append("p").text(`gender: ${metadata[i].gender}`);
+        d3.select("#sample-metadata").append("p").text(`age: ${metadata[i].age}`);
+        d3.select("#sample-metadata").append("p").text(`location: ${metadata[i].location}`);
+        d3.select("#sample-metadata").append("p").text(`bbtype: ${metadata[i].bbtype}`);
+        d3.select("#sample-metadata").append("p").text(`wfreq: ${metadata[i].wfreq}`);
+      };
+    };
     // checking to see if function is running
     console.log(`This function generates summary info of ${id} `);
   };
