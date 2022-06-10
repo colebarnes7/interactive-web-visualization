@@ -25,18 +25,15 @@ d3.json(url).then(function(data){
     createSummary('940');
   };
 
-  d3.selectAll("#selDataset").on("change", optionChanged());
+  d3.selectAll("#selDataset").on("change", optionChanged);
   // function that runs whenever the dropdown is changed
   // this function is in the HTML and is called with an input called 'this.value'
   // that comes from the select element (dropdown)
-  function optionChanged(){
+  function optionChanged(newID){
     // code that updates graphics
-    let dropdownMenu = d3.select("#selDataset");
-    let id = dropdownMenu.property("this.value");
-    // one way is to recall each function
-    createBubble(id);
-    createBar(id);
-    createSummary(id);
+    createBubble(newID);
+    createBar(newID);
+    createSummary(newID);
   };
   
   // Function to create a bubble chart at a specific id
