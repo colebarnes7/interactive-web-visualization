@@ -17,7 +17,7 @@ d3.json(url).then(function(data){
     // create dropdown/select
     let dropdownMenu = d3.select("#selDataset");
     for (let i = 0; i < names.length; i++){
-      dropdownMenu.append("option").text(names[i]);
+      dropdownMenu.append("option").text(names[i]).attr("value", names[i]);
     };
     // run functions to generate plots
     createBubble('940');
@@ -29,11 +29,13 @@ d3.json(url).then(function(data){
   // function that runs whenever the dropdown is changed
   // this function is in the HTML and is called with an input called 'this.value'
   // that comes from the select element (dropdown)
-  function optionChanged(newID){
+  function optionChanged(){
     // code that updates graphics
-    createBubble(newID);
-    createBar(newID);
-    createSummary(newID);
+    var id = d3.select("#selDataset").property("value");
+    console.log(id);
+    createBubble(id);
+    createBar(id);
+    createSummary(id);
   };
   
   // Function to create a bubble chart at a specific id
@@ -102,6 +104,7 @@ d3.json(url).then(function(data){
   };
   
   function createSummary(id){
+    d3.select("#sample-metadata").selectAll("p").remove();
     for (let i = 0; i < names.length; i++){
       // finds the index where the current id is
       if (id == names[i]){
