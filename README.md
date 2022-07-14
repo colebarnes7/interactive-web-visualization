@@ -5,7 +5,7 @@ This repository contains an index.html file setting up a webpage to display a da
 https://2u-data-curriculum-team.s3.amazonaws.com/dataviz-classroom/v1.1/14-Interactive-Web-Visualizations/02-Homework/samples.json
 
 ### GitHub Pages Link
- https://colebarnes7.github.io/interactive-web-visualization-challenge/
+https://colebarnes7.github.io/interactive-web-visualization/
 
 ### Technologies
 * JavaScript
