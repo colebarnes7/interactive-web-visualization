@@ -20,6 +20,8 @@ https://colebarnes7.github.io/interactive-web-visualization/
 
 ### App Images
 
+This first screenshot displays the webpage on the initial opening of the site.
 ![webpage1](images/940_webpage.png)
 <br>
+This screenshot shows an example of how the webpage changes using the dropdown menu to select a new Subject ID.
 ![webpage2](images/955_webpage.png)
